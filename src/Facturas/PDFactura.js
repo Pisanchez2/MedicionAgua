@@ -7,6 +7,8 @@ import '../Components/StyleComp.css';
 import GetPDF from './GetPDF'
 import { PDFViewer } from '@react-pdf/renderer';
 import moment from 'moment';
+import { Route, Link, BrowserRouter as Router, Redirect } from 'react-router-dom'
+
 
 class PDFactura extends Component {
     constructor(props) {
@@ -45,13 +47,18 @@ class PDFactura extends Component {
 
     }
 
+    logout() {
+        fire.auth().signOut();
+        localStorage.clear(); 
+    }
+
     render() {
 
 
         return (
             <div>
                 <Navbar bg="primary" variant="dark" expand="lg">
-                    <Navbar.Brand href="/"><img
+                    <Navbar.Brand href="/Home"><img
                         src={logo2}
                         width="140"
                         height="60"
@@ -61,10 +68,12 @@ class PDFactura extends Component {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link href="/">Inicio</Nav.Link>
+                            <Nav.Link href="/Home">Inicio</Nav.Link>
                             <Nav.Link href="/Factura">Factura</Nav.Link>
                         </Nav>
-                        <Button onClick={this.logout} variant="outline-info">Salir</Button>
+                        <Link to="/">                        
+                        <Button onClick={this.logout} variant="outline-info">  Salir </Button>
+                        </Link>
                     </Navbar.Collapse>
                 </Navbar>
                 <div className="inputtres">

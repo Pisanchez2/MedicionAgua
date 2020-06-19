@@ -10,7 +10,6 @@ class Login extends Component {
       super(props);
       this.login = this.login.bind(this);
       this.handleChange = this.handleChange.bind(this);
-      //this.signup = this.signup.bind(this);
       this.state = {
         email: '',
         password: ''
@@ -22,6 +21,7 @@ class Login extends Component {
     }
   
     login(e) {
+      localStorage.setItem('token','1'); 
       e.preventDefault();
       fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
       }).catch((error) => {
@@ -29,14 +29,6 @@ class Login extends Component {
         });
     }
   
-   /* signup(e){
-      e.preventDefault();
-      fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
-      }).then((u)=>{console.log(u)})
-      .catch((error) => {
-          console.log(error);
-        })
-    }*/
     render() {
       return (
           
@@ -78,5 +70,3 @@ class Login extends Component {
     }
   }
   export default Login;
-
-  //<button onClick={this.signup} style={{marginLeft: '25px'}} className="btn btn-success">Signup</button>

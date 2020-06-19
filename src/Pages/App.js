@@ -3,6 +3,9 @@ import './App.css';
 import Home from './Home';
 import Login from './Login';
 import fire from '../config/Fire'
+import PDFactura from '../Facturas/PDFactura';
+import { Route, Link, BrowserRouter as Router, Redirect } from 'react-router-dom'
+
 
 class App extends Component {
   constructor() {
@@ -33,13 +36,11 @@ class App extends Component {
   render() {
     return (
       <div>
-        {this.state.user ? (
-          
-          <Home />
-          
+        {this.state.user ? (         
+            <Redirect to='/Home' />        
         ) :
           (
-            <Login />
+            <Login/>
           )}
       </div>
     );

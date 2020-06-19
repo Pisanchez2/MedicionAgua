@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import fire from '../config/Fire';
 import firebase from 'firebase';
+import Login from './Login';
 import { Row, Col, Form, Button, Alert, Nav, Navbar, NavDropdown, FormControl } from 'react-bootstrap';
+import { Route, Link, BrowserRouter as Router, Redirect } from 'react-router-dom'
 
 import Plot from 'react-plotly.js';
 import logo2 from '../Assets/Images/LogoBSRJA.png';
@@ -40,6 +42,7 @@ class Home extends Component {
 
     logout() {
         fire.auth().signOut();
+        localStorage.clear(); 
     }
     _update_nombre = (e) => {
         this.setState({ socio: e.target.value })
@@ -82,7 +85,7 @@ class Home extends Component {
         return (
             <div>
                 <Navbar bg="primary" variant="dark" expand="lg">
-                    <Navbar.Brand href="/"><img
+                    <Navbar.Brand href="/Home"><img
                         src={logo2}
                         width="140"
                         height="60"
@@ -92,10 +95,12 @@ class Home extends Component {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link href="/">Inicio</Nav.Link>
+                            <Nav.Link href="/Home">Inicio</Nav.Link>
                             <Nav.Link href="/Factura">Factura</Nav.Link>
                         </Nav>
-                        <Button onClick={this.logout} variant="outline-info">Salir</Button>
+                        <Link to="/">                        
+                        <Button onClick={this.logout} variant="outline-info">  Salir </Button>
+                        </Link>
                     </Navbar.Collapse>
                 </Navbar>
 
@@ -111,7 +116,7 @@ class Home extends Component {
                                     Numero de Socio:
                                 </Form.Label>
                                 <Col sm="3">
-                                    <Form.Control value={this.state.value}  onChange={this.onChange} type="input" placeholder="Ingrese Num. Socio" name="numsocio" ref={this.miaref} />
+                                    <Form.Control value={this.state.value} onChange={this.onChange} type="input" placeholder="Ingrese Num. Socio" name="numsocio" ref={this.miaref} />
                                 </Col>
                                 <Col sm="1.5">
                                     <Button disabled={!this.state.value} variant="secondary" onClick={(e) => { this.clicked(); }}>
