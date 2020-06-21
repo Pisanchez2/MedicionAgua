@@ -21,9 +21,9 @@ class Login extends Component {
     }
   
     login(e) {
-      localStorage.setItem('token','1'); 
       e.preventDefault();
       fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
+        localStorage.setItem('token','1'); 
       }).catch((error) => {
           console.log(error);
         });

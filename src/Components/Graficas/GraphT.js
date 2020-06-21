@@ -6,6 +6,8 @@ const GraphT = (props) =>{
 
     const{medi,fmed} = props;
 
+    var lgmedi = medi.length;
+
     return (
 
         <div>
@@ -14,9 +16,17 @@ const GraphT = (props) =>{
           {
             x: fmed,
             y: medi,
-            type: 'scatter',
+            type: 'bar',
             mode: 'lines+markers',
-            marker: {color: 'red'},
+            textposition: 'auto',
+            marker: {
+              color: 'rgb(158,202,225)',
+              opacity: 0.6,
+              line: {
+                color: 'rgb(8,48,107)',
+                width: 1.5
+              }
+            }
           }
         ]}
         layout={ {width: 780, height: 380, title: 'Mediciones Acumuladas', margin: {
@@ -27,6 +37,7 @@ const GraphT = (props) =>{
             pad: 3
           },
           xaxis: {
+            autorange: true,
             title: {
               text: 'Tiempo',
               font: {
@@ -35,7 +46,9 @@ const GraphT = (props) =>{
                 color: '#7f7f7f'
               }
             },
-          },yaxis: {
+          },
+          yaxis: {
+            range: [(medi[1]-medi[1]*0.05) , (medi[lgmedi-1]+medi[lgmedi-1]*0.02) ],
             title: {
               text: 'm3',
               font: {

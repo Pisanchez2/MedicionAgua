@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/static/css/main.7243f321.chunk.css",
+    "main.js": "/static/js/main.3f3ba5dc.chunk.js",
+    "main.js.map": "/static/js/main.3f3ba5dc.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.aeda5bfe.js",
+    "runtime-main.js.map": "/static/js/runtime-main.aeda5bfe.js.map",
+    "static/js/2.40cad616.chunk.js": "/static/js/2.40cad616.chunk.js",
+    "static/js/2.40cad616.chunk.js.map": "/static/js/2.40cad616.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.68e55b7bbcd6af6edfe75d31fa8af1f5.js": "/precache-manifest.68e55b7bbcd6af6edfe75d31fa8af1f5.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.7243f321.chunk.css.map": "/static/css/main.7243f321.chunk.css.map",
+    "static/js/2.40cad616.chunk.js.LICENSE.txt": "/static/js/2.40cad616.chunk.js.LICENSE.txt",
+    "static/media/LogoBSRJA.png": "/static/media/LogoBSRJA.9ed1af6a.png",
+    "static/media/LogoCutuglagua.png": "/static/media/LogoCutuglagua.963a1e82.png",
+    "static/media/LogoPDF.png": "/static/media/LogoPDF.894f2d10.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.aeda5bfe.js",
+    "static/js/2.40cad616.chunk.js",
+    "static/css/main.7243f321.chunk.css",
+    "static/js/main.3f3ba5dc.chunk.js"
+  ]
+}

@@ -17,6 +17,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    localStorage.clear();
     this.authListener();
   }
 
