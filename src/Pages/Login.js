@@ -15,17 +15,18 @@ class Login extends Component {
         password: ''
       };
     }
-  
+    
     handleChange(e) {
       this.setState({ [e.target.name]: e.target.value });
     }
-  
+
     login(e) {
       e.preventDefault();
       fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
-        localStorage.setItem('token','1'); 
+        
       }).catch((error) => {
           console.log(error);
+          localStorage.clear();
         });
     }
   

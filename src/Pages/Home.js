@@ -27,13 +27,13 @@ class Home extends Component {
         this.onChange = this.onChange.bind(this);
 
         this.state = {
-            numsocio: null,
-            socio: null,
-            lt: null,
-            mz: null,
-            ced: null,
-            n_habitantes: null,
-            mensaje: null,
+            numsocio: "",
+            socio: "",
+            lt: "",
+            mz: "",
+            ced: "",
+            n_habitantes: "",
+            mensaje: "",
             data: null,
             datacon: null
         };
@@ -42,7 +42,7 @@ class Home extends Component {
 
     logout() {
         fire.auth().signOut();
-        localStorage.clear(); 
+        localStorage.clear();
     }
     _update_nombre = (e) => {
         this.setState({ socio: e.target.value })

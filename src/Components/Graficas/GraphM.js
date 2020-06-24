@@ -30,7 +30,7 @@ const GraphM = (props) =>{
             }
           }
         ]}
-        layout={ {width: 780, height: 380, title: 'Mediciones Acumuladas', margin: {
+        layout={ {width: 780, height: 380, title: 'm3 consumidos por Mes', margin: {
             l: 60,
             r: 20,
             b: 60,

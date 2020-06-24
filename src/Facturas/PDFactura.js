@@ -49,7 +49,7 @@ class PDFactura extends Component {
 
     logout() {
         fire.auth().signOut();
-        localStorage.clear(); 
+        localStorage.clear();
     }
 
     render() {
@@ -78,7 +78,7 @@ class PDFactura extends Component {
                 </Navbar>
                 <div className="inputtres">
                     <Form >
-                        <Form.Group as={Row} controlId="IngresoSocio">
+                        <Form.Group as={Row} >
                             <Form.Label column sm="2">
                                 Numero de Socio:
                                 </Form.Label>
@@ -89,17 +89,17 @@ class PDFactura extends Component {
                                 Año:
                             </Form.Label>
                             <Col sm="2">
-                                <Form.Control as="select" id="OpcionAnio" onChange={(e) => { this.habilitar(); }}>
+                                <Form.Control as="select" id="OpcionAnio" defaultValue="2020" onChange={(e) => { this.habilitar(); }}>
                                     <option>2019</option>
-                                    <option selected="selected">2020</option>
+                                    <option>2020</option>
                                 </Form.Control>
                             </Col>
                             <Form.Label column sm="1">
                                 Mes:
                             </Form.Label>
                             <Col sm="2">
-                                <Form.Control as="select" id="OpcionMes" onChange={(e) => { this.habilitar(); }}>
-                                    <option value="0" selected disabled >Selec. Mes</option>
+                                <Form.Control as="select" defaultValue="0" id="OpcionMes" onChange={(e) => { this.habilitar(); }}>
+                                    <option value="0" disabled >Selec. Mes</option>
                                     <option value="1">Enero</option>
                                     <option value="2">Febrero</option>
                                     <option value="3">Marzo</option>
@@ -143,7 +143,7 @@ class PDFactura extends Component {
     async habilitar() {
         var m = document.getElementById("OpcionMes");
         var mesbuscar = m.options[m.selectedIndex].value;
-        if (mesbuscar == 0 || this.miaref.current.value == null || this.miaref.current.value == "") {
+        if (mesbuscar === 0 || this.miaref.current.value === null || this.miaref.current.value === "") {
             this.permbus = true;
         } else {
             this.permbus = false;
@@ -221,7 +221,7 @@ class PDFactura extends Component {
             })
         })
 
-        if (this.mesbuscar == 1) {
+        if (this.mesbuscar === 1) {
             this.mesbuscaranterior = 12;
             this.aniobuscaranterior = this.aniobuscar - 1;
         }
@@ -259,28 +259,28 @@ class PDFactura extends Component {
             const reffcostoagua = firebase.database().ref().child('Costos').child("" + this.vvconsumido + "").child("costoagua")
             reffcostoagua.on('value', (snapshot) => {
                 this.setState({
-                    valcostoagua: snapshot.val()
+                    valcostoagua: snapshot.val().toFixed(2)
                 })
             })
 
             const reffvalalcantarillado = firebase.database().ref().child('Costos').child("" + this.vvconsumido + "").child("alcantarillado")
             reffvalalcantarillado.on('value', (snapshot) => {
                 this.setState({
-                    valalcantarillado: snapshot.val()
+                    valalcantarillado: snapshot.val().toFixed(2)
                 })
             })
 
             const reffvalrecaudacion = firebase.database().ref().child('Costos').child("" + this.vvconsumido + "").child("recaudacion")
             reffvalrecaudacion.on('value', (snapshot) => {
                 this.setState({
-                    valrecaudacion: snapshot.val()
+                    valrecaudacion: snapshot.val().toFixed(2)
                 })
             })
 
             const reffvaltotal = firebase.database().ref().child('Costos').child("" + this.vvconsumido + "").child("total")
             reffvaltotal.on('value', (snapshot) => {
                 this.setState({
-                    valtotal: snapshot.val()
+                    valtotal: snapshot.val().toFixed(2)
                 })
             })
 

@@ -36,7 +36,7 @@ const GetPDF = (props) => {
                 <Text style={styles.author}>Fecha:   {date}                              Mz: {mz}                     Lt: {lt} </Text>
                 <Text style={styles.author}>Lectura Anterior:    {valanterior}           Lectura Actual:   {valactual}             </Text>
 
-                <Table
+                <Table  
                     data={[
                         { descripcion: " " + mes, cantidad: valconsumido, valor: valcostoagua },
                         { descripcion: " ", cantidad: " ", valor: " " },
@@ -53,21 +53,21 @@ const GetPDF = (props) => {
         
                     ]}
                 >
-                    <TableHeader>
-                        <TableCell>
+                    <TableHeader >
+                        <TableCell style={{ textAlign:"center" }}>
                             DESCRIPCION
                         </TableCell>
-                        <TableCell weighting={0.35}>
+                        <TableCell weighting={0.35} style={{ textAlign:"center" }}>
                             CANTIDAD m3
                         </TableCell>
-                        <TableCell weighting={0.35}>
+                        <TableCell weighting={0.35} style={{ textAlign:"center" }}>
                             VALOR $
                         </TableCell >    
                     </TableHeader>
                     <TableBody>
                         <DataTableCell getContent={(r) => r.descripcion} />
-                        <DataTableCell weighting={0.35} getContent={(r) => r.cantidad} />
-                        <DataTableCell weighting={0.35} getContent={(r) => r.valor} />
+                        <DataTableCell weighting={0.35} getContent={(r) => r.cantidad} style={{ textAlign:"center" }}/>
+                        <DataTableCell weighting={0.35} getContent={(r) => r.valor} style={{ textAlign:"center" }} />
                     </TableBody>
                 </Table>
                 <Text style={styles.author}>        </Text>
