@@ -23,7 +23,6 @@ class PDFactura extends Component {
         this.permbus = true; //para habilitar el boton de buscar    
         this.vvconsumido = null;
        
-
         this.state = {
             numsocio: null,
             socio: null,
@@ -76,6 +75,9 @@ class PDFactura extends Component {
                         </Link>
                     </Navbar.Collapse>
                 </Navbar>
+                {this.state.mensaje === null ? <div> </div> : <Alert variant={this.state.status}>
+                    {this.state.mensaje}
+                </Alert>}
                 <div className="inputtres">
                     <Form >
                         <Form.Group as={Row} >
@@ -156,7 +158,6 @@ class PDFactura extends Component {
         var mesbuscar = m.options[m.selectedIndex].value;
         var a = document.getElementById("OpcionAnio");
         var aniobuscar = a.options[a.selectedIndex].text;
-        console.log("MEEES ", mesbuscar + aniobuscar);
         this.aniobuscar = aniobuscar;
         this.mesbuscar = mesbuscar;
     }
@@ -183,34 +184,22 @@ class PDFactura extends Component {
         var mes = mesi.toLocaleDateString("es-ES", options2)
         this.setState({ mes });
 
-        const reffnom = firebase.database().ref().child('Socio').child("" + this.numsocio + "").child('nombre')
-        reffnom.on('value', (snapshot) => {
-            this.setState({
-                socio: snapshot.val()
-            })
+        const reffp = firebase.database().ref().child('Socio')
+        reffp.on('value', (snapshot) => {
+           
+            if(snapshot.hasChild("" + this.numsocio + "")){
+                this.setState({ mensaje: "Socio Existe" , status: "success"})
+                this.setState({
+                    socio: snapshot.child("" + this.numsocio + "").child('nombre').val(),
+                    lt: snapshot.child("" + this.numsocio + "").child('lt').val(),
+                    mz: snapshot.child("" + this.numsocio + "").child('mz').val(),
+                    ced: snapshot.child("" + this.numsocio + "").child('cedula').val(),
+                })
+            }else{
+                this.setState({ mensaje: "Socio NO Existe" , status: 'danger'})
+            }
 
-        })
-
-        const refflt = firebase.database().ref().child('Socio').child("" + this.numsocio + "").child('lt')
-        refflt.on('value', (snapshot) => {
-            this.setState({
-                lt: snapshot.val()
-            })
-        })
-
-        const reffmz = firebase.database().ref().child('Socio').child("" + this.numsocio + "").child('mz')
-        reffmz.on('value', (snapshot) => {
-            this.setState({
-                mz: snapshot.val()
-            })
-        })
-
-        const reffced = firebase.database().ref().child('Socio').child("" + this.numsocio + "").child('cedula')
-        reffced.on('value', (snapshot) => {
-            this.setState({
-                ced: snapshot.val()
-            })
-        })
+        })  
 
         //Obtener medicion actual y anterior
 
@@ -256,31 +245,13 @@ class PDFactura extends Component {
 
             //Obtener valores de tabla de consumo
 
-            const reffcostoagua = firebase.database().ref().child('Costos').child("" + this.vvconsumido + "").child("costoagua")
+            const reffcostoagua = firebase.database().ref().child('Costos').child("" + this.vvconsumido + "")
             reffcostoagua.on('value', (snapshot) => {
                 this.setState({
-                    valcostoagua: snapshot.val().toFixed(2)
-                })
-            })
-
-            const reffvalalcantarillado = firebase.database().ref().child('Costos').child("" + this.vvconsumido + "").child("alcantarillado")
-            reffvalalcantarillado.on('value', (snapshot) => {
-                this.setState({
-                    valalcantarillado: snapshot.val().toFixed(2)
-                })
-            })
-
-            const reffvalrecaudacion = firebase.database().ref().child('Costos').child("" + this.vvconsumido + "").child("recaudacion")
-            reffvalrecaudacion.on('value', (snapshot) => {
-                this.setState({
-                    valrecaudacion: snapshot.val().toFixed(2)
-                })
-            })
-
-            const reffvaltotal = firebase.database().ref().child('Costos').child("" + this.vvconsumido + "").child("total")
-            reffvaltotal.on('value', (snapshot) => {
-                this.setState({
-                    valtotal: snapshot.val().toFixed(2)
+                    valcostoagua: snapshot.child("costoagua").val().toFixed(2),
+                    valalcantarillado: snapshot.child("alcantarillado").val().toFixed(2),
+                    valrecaudacion: snapshot.child("recaudacion").val().toFixed(2),
+                    valtotal: snapshot.child("total").val().toFixed(2)
                 })
             })
 

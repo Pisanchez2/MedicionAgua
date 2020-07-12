@@ -1,10 +1,5 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-import firebase from 'firebase';
-import { user } from 'firebase-functions/lib/providers/auth';
-import fire from '../config/Fire';
-import * as admin from 'firebase-admin';
-
 
 class ProtectedRoute extends React.Component {
 

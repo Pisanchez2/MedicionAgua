@@ -34,8 +34,11 @@ class Home extends Component {
             ced: "",
             n_habitantes: "",
             mensaje: "",
+            status: "",
             data: null,
-            datacon: null
+            datacon: null,
+            datatotalmed: new Array(),
+            datatotalcon: new Array(),
         };
 
     }
@@ -71,6 +74,7 @@ class Home extends Component {
         } else {
             var medi = this.state.data.map((val, i) => {
                 return val.medicion
+
             })
 
             var fmed = this.state.data.map((val, i) => {
@@ -80,6 +84,7 @@ class Home extends Component {
             var vcon = this.state.datacon.map((val, i) => {
                 return val.Consumido_m3
             })
+
         }
 
         return (
@@ -98,13 +103,13 @@ class Home extends Component {
                             <Nav.Link href="/Home">Inicio</Nav.Link>
                             <Nav.Link href="/Factura">Factura</Nav.Link>
                         </Nav>
-                        <Link to="/">                        
-                        <Button onClick={this.logout} variant="outline-info">  Salir </Button>
+                        <Link to="/">
+                            <Button onClick={this.logout} variant="outline-info">  Salir </Button>
                         </Link>
                     </Navbar.Collapse>
                 </Navbar>
 
-                {this.state.mensaje === null ? <div> </div> : <Alert variant="success">
+                {this.state.mensaje === null ? <div> </div> : <Alert variant={this.state.status}>
                     {this.state.mensaje}
                 </Alert>}
 
@@ -180,11 +185,8 @@ class Home extends Component {
                 </div>
 
                 <div className="grafica" ref={this.refgrap}>
-
-
                     <GraphT medi={medi} fmed={fmed} />
                     <GraphM vcon={vcon} fmed={fmed} />
-
                 </div>
 
             </div>
@@ -193,24 +195,14 @@ class Home extends Component {
     }
 
     //Funcion para actualizar el usuario
-    changeText() {
-
-        const reff1 = firebase.database().ref().child('Socio').child("" + this.numsocio + "").child("nombre")
-        reff1.set(this.refnom.current.value);
-
-        const reff2 = firebase.database().ref().child('Socio').child("" + this.numsocio + "").child("cedula")
-        reff2.set(this.refced.current.value);
-
-        const reff3 = firebase.database().ref().child('Socio').child("" + this.numsocio + "").child("mz")
-        reff3.set(this.refmz.current.value);
-
-        const reff4 = firebase.database().ref().child('Socio').child("" + this.numsocio + "").child("lt")
-        reff4.set(this.reflt.current.value);
-
-        const reff5 = firebase.database().ref().child('Socio').child("" + this.numsocio + "").child("n_habitantes")
-        reff5.set(this.refnh.current.value);
-
-        this.setState({ mensaje: "Socio Actualizado" })
+    async changeText() {
+        const reffactualizar = firebase.database().ref().child('Socio').child("" + this.numsocio + "")
+        reffactualizar.child("nombre").set(this.refnom.current.value)
+        reffactualizar.child("cedula").set(this.refced.current.value)
+        reffactualizar.child("mz").set(this.refmz.current.value)
+        reffactualizar.child("lt").set(this.reflt.current.value)
+        reffactualizar.child("n_habitantes").set(this.refnh.current.value)
+        this.setState({ mensaje: "Socio Actualizado" , status: "success"})
     }
 
     //Funciones para consultar la informacion del usuario (clicked, consulta, obtdata)
@@ -225,41 +217,24 @@ class Home extends Component {
     }
 
     async consulta() {
-        const reffnom = firebase.database().ref().child('Socio').child("" + this.numsocio + "").child('nombre')
-        reffnom.on('value', (snapshot) => {
-            this.setState({
-                socio: snapshot.val()
-            })
-            console.log("NOMBRE SOCIO ", this.state.socio)
-        })
 
-        const refflt = firebase.database().ref().child('Socio').child("" + this.numsocio + "").child('lt')
-        refflt.on('value', (snapshot) => {
-            this.setState({
-                lt: snapshot.val()
-            })
-        })
+        const reffp = firebase.database().ref().child('Socio')
+        reffp.on('value', (snapshot) => {
+           
+            if(snapshot.hasChild("" + this.numsocio + "")){
+                this.setState({ mensaje: "Socio Existe" , status: "success"})
+                this.setState({
+                    socio: snapshot.child("" + this.numsocio + "").child('nombre').val(),
+                    lt: snapshot.child("" + this.numsocio + "").child('lt').val(),
+                    mz: snapshot.child("" + this.numsocio + "").child('mz').val(),
+                    ced: snapshot.child("" + this.numsocio + "").child('cedula').val(),
+                    n_habitantes: snapshot.child("" + this.numsocio + "").child('n_habitantes').val()
+                })
+            }else{
+                this.setState({ mensaje: "Socio NO Existe" , status: 'danger'})
+            }
 
-        const reffmz = firebase.database().ref().child('Socio').child("" + this.numsocio + "").child('mz')
-        reffmz.on('value', (snapshot) => {
-            this.setState({
-                mz: snapshot.val()
-            })
-        })
-
-        const reffced = firebase.database().ref().child('Socio').child("" + this.numsocio + "").child('cedula')
-        reffced.on('value', (snapshot) => {
-            this.setState({
-                ced: snapshot.val()
-            })
-        })
-
-        const reffnh = firebase.database().ref().child('Socio').child("" + this.numsocio + "").child('n_habitantes')
-        reffnh.on('value', (snapshot) => {
-            this.setState({
-                n_habitantes: snapshot.val()
-            })
-        })
+        })  
 
     }
 
@@ -267,23 +242,60 @@ class Home extends Component {
 
     async obtdata() {
 
-        const reffobtmed = firebase.database().ref().child('Medidas').child("" + this.numsocio + "").child("Mediciones").child("2020")
-        const reffobtcon = firebase.database().ref().child('Consumo').child("" + this.numsocio + "").child('Valores').child("2020")
+        var date = new Date();
+        var mes = date.getMonth() + 1;
+        var anio = date.getFullYear();
+        var mescon = date.getMonth() + 1;
+        var aniocon = date.getFullYear();
+        const refftotalmed = firebase.database().ref().child('Medidas').child("" + this.numsocio + "").child("Mediciones")
+        const refftotalcon = firebase.database().ref().child('Consumo').child("" + this.numsocio + "").child('Valores')
 
-        reffobtmed.on('value', (snapshot) => {
+        refftotalmed.on('value', (snapshot) => {
+            var i;
+            for (i = 9; i >= 1; i--) {
+
+                if (snapshot.child("" + anio).hasChild("" + mes)) {
+                    this.state.datatotalmed[i] = snapshot.child("" + anio).child("" + mes).val();
+                } else {
+                    this.state.datatotalmed[i] = 0;
+                }
+                if (mes == 1) {
+                    mes = 12;
+                    anio = anio - 1;
+                } else {
+                    mes = mes - 1;
+                }
+
+            }
+
             this.setState({
-                data: snapshot.val()
+                data: this.state.datatotalmed
             })
-            console.log("DATA ", this.state.data)
+
         })
 
-        reffobtcon.on('value', (snapshot) => {
+        refftotalcon.on('value', (snapshot) => {
+            var i;
+            for (i = 9; i >= 1; i--) {
+
+                if (snapshot.child("" + aniocon).hasChild("" + mescon)) {
+                    this.state.datatotalcon[i] = snapshot.child("" + aniocon).child("" + mescon).val();
+                } else {
+                    this.state.datatotalcon[i] = 0;
+                }
+                if (mescon == 1) {
+                    mescon = 12;
+                    aniocon = aniocon - 1;
+                } else {
+                    mescon = mescon - 1;
+                }
+            }
+
             this.setState({
-                datacon: snapshot.val()
+                datacon: this.state.datatotalcon
             })
         })
     }
-
 
 }
 

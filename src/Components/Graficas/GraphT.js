@@ -48,7 +48,7 @@ const GraphT = (props) =>{
             },
           },
           yaxis: {
-            range: [(medi[1]-medi[1]*0.05) , (medi[lgmedi-1]+medi[lgmedi-1]*0.02) ],
+            range: [(medi[2]-medi[2]*0.05) , (medi[lgmedi-2]+medi[lgmedi-2]*0.02) ],
             title: {
               text: 'm3',
               font: {

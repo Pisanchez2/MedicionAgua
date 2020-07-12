@@ -23,6 +23,8 @@
   align-content: center;
   margin-top: 1% !important;
   margin: auto;
+  margin-left: 5%;
+  margin-right: 5%;
   max-width: 1500px;
   transform: 'translate(-50%, -50%)';
   }
